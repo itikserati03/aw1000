@@ -88,16 +88,7 @@ fun GradButton(text: String, enabled: Boolean = true, loading: Boolean = false, 
         Modifier.fillMaxWidth().height(52.dp).clip(shape)
             .background(Brush.horizontalGradient(if (enabled) color else listOf(Color(0xFF2A3350), Color(0xFF2A3350))))
             .clickable(enabled = enabled && !loading, onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        if (loading) CircularProgressIndicator(Modifier.size(24.dp), color = Color.White, strokeWidth = 2.5.dp)
-        else Text(text, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-    }
-}
-
-@Composable
-fun Chip(text: String, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(50)
+        contentAlignment = Alignment.Centerval shape = RoundedCornerShape(50)
     Box(
         modifier.clip(shape)
             .background(if (selected) Brush.horizontalGradient(listOf(Cyan, Blue)) else Brush.horizontalGradient(listOf(CardBg, CardBg)))
@@ -163,18 +154,6 @@ fun Duck(size: Dp) {
         }
     }
 }
-
-@Composable
-fun Logo(size: Dp = 34.dp, textSize: Int = 22) = Row(verticalAlignment = Alignment.CenterVertically) {
-    Duck(size); Spacer(Modifier.width(8.dp)); GradText("ITIK SERATI", textSize)
-}
-
-// ---------------- Graf ----------------
-fun niceMax(v: Float): Float {
-    val t = v * 1.1f
-    return listOf(1f, 2f, 5f, 10f, 20f, 50f, 100f, 200f, 300f, 500f, 1000f, 2000f, 5000f).firstOrNull { it >= t } ?: max(t, 1f)
-}
-
 @Composable
 fun TrafficGraph(rx: List<Float>, tx: List<Float>, modifier: Modifier = Modifier) {
     val tm = rememberTextMeasurer()
@@ -238,16 +217,8 @@ fun gaugeFrac(v: Float): Float {
 }
 
 @Composable
-fun SpeedGauge(mbps: Float, big: String, modifier: Modifier = Modifier) {
-    val frac by animateFloatAsState(gaugeFrac(mbps), tween(350), label = "g")
-    val tm = rememberTextMeasurer()
-    Box(modifier.aspectRatio(1f), contentAlignment = Alignment.Center) {
-        Canvas(Modifier.fillMaxSize()) {
-            val w = size.minDimension; val sw = w * 0.07f; val pad = sw / 2 + w * 0.02f
-            val arc = Size(w - 2 * pad, w - 2 * pad); val c = Offset(w / 2, w / 2); val r = arc.width / 2
-            drawArc(Color(0x22FFFFFF), 135f, 270f, false, Offset(pad, pad), arc, style = Stroke(sw, cap = StrokeCap.Round))
-            val grad = Brush.sweepGradient(
-                listOf(0f to Magenta, 0.125f to Magenta, 0.375f to Cyan, 0.6f to Blue, 0.85f to Purple, 1f to Magenta).toTypedArray(), c)
+fun SpeedGauge(mbps: Float, big: String, modifier: Modifier = Modifier) {center = c
+            )
             if (frac > 0.003f) drawArc(grad, 135f, 270f * frac, false, Offset(pad, pad), arc, style = Stroke(sw, cap = StrokeCap.Round))
             val ts = TextStyle(color = Color.White, fontSize = (w * 0.04f / density * 1f).coerceAtLeast(9f).sp)
             TICKS.forEachIndexed { i, t ->
@@ -267,3 +238,35 @@ fun SpeedGauge(mbps: Float, big: String, modifier: Modifier = Modifier) {
         }
     }
 }
+    val frac by animateFloatAsState(gaugeFrac(mbps), tween(350), label = "g")
+    val tm = rememberTextMeasurer()
+    Box(modifier.aspectRatio(1f), contentAlignment = Alignment.Center) {
+        Canvas(Modifier.fillMaxSize()) {
+            val w = size.minDimension; val sw = w * 0.07f; val pad = sw / 2 + w * 0.02f
+            val arc = Size(w - 2 * pad, w - 2 * pad); val c = Offset(w / 2, w / 2); val r = arc.width / 2
+            drawArc(Color(0x22FFFFFF), 135f, 270f, false, Offset(pad, pad), arc, style = Stroke(sw, cap = StrokeCap.Round))
+            val grad = Brush.sweepGradient(
+                0f to Magenta,
+                0.125f to Magenta,
+                0.375f to Cyan,
+                0.6f to Blue,
+                0.85f to Purple,
+                1f to Magenta,
+@Composable
+fun Logo(size: Dp = 34.dp, textSize: Int = 22) = Row(verticalAlignment = Alignment.CenterVertically) {
+    Duck(size); Spacer(Modifier.width(8.dp)); GradText("ITIK SERATI", textSize)
+}
+
+// ---------------- Graf ----------------
+fun niceMax(v: Float): Float {
+    val t = v * 1.1f
+    return listOf(1f, 2f, 5f, 10f, 20f, 50f, 100f, 200f, 300f, 500f, 1000f, 2000f, 5000f).firstOrNull { it >= t } ?: max(t, 1f)
+}
+    ) {
+        if (loading) CircularProgressIndicator(Modifier.size(24.dp), color = Color.White, strokeWidth = 2.5.dp)
+        else Text(text, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+    }
+}
+
+@Composable
+fun Chip(text: String, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
