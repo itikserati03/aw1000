@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.ItikSerati" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#050A1A</item>
+        <item name="android:statusBarColor">#050A1A</item>
+        <item name="android:navigationBarColor">#0B1328</item>
+    </style>
+</resources>
