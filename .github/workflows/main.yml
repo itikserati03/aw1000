@@ -1,0 +1,39 @@
+name: Bina APK Itik Serati
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'itik/**'
+      - '.github/workflows/main.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil kod projek
+        uses: actions/checkout@v4
+
+      - name: Sediakan Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Bina APK Android
+        working-directory: itik
+        run: |
+          chmod +x gradlew 2>/dev/null || true
+          if [ -f gradlew ]; then
+            ./gradlew assembleDebug
+          else
+            gradle assembleDebug
+          fi
+
+      - name: Simpan fail APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Itik-Serati-APK
+          path: itik/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
